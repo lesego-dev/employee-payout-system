@@ -1,48 +1,64 @@
-class Employees {
-    constructor(name, type, salary, hourlyRate) {
-      this.name = name;
-      this.type = type;
-      this.salary = salary;
-      this.hourlyRate = hourlyRate;
-      this.totalSales = 200;
-      this.targetSales = 100;
-    }
-  
-    calculatePayout() {
-      if (this.totalSales > this.targetSales) {
-        if (this.type === "Salary") {
-          console.log('Payout calculation formula: Salary + (Salary * 0.1)');
-          return this.salary + (this.salary * 0.1);
-        } else if (this.type === "Hourly") {
-          console.log('Payout calculation formula: Salary + (Hourly Rate * Total Sales * 0.5)');
-          return this.salary + (this.hourlyRate * this.totalSales * 0.5);
-        } else if (this.type === "Hybrid") {
-          console.log('Payout calculation formula: Salary + ((Salary * 0.2) + (Hourly Rate * Total Sales))');
-           return this.salary + ((this.salary * 0.2) + (this.hourlyRate * this.totalSales));
-        }
-        
-      }
-    }
-}
-  
-  const salaryEmployee1 = new Employees("Mosa Sefatsa", "Salary", 5000, 0);
-  const salaryEmployee2 = new Employees("Keletso Dikotsi", "Salary", 3000, 0);
-  
-  const hourlyEmployee1 = new Employees("Naledi Anderson", "Hourly", 10, 20);
-  const hourlyEmployee2 = new Employees("Mike Mathews", "Hourly", 0, 25);
-  
-  const hybridEmployee1 = new Employees("kate Stevenson", "Hybrid", 6000, 40);
-  const hybridEmployee2 = new Employees("Bob Peters", "Hybrid", 9000, 30);
-  
-  //Display Monthly payout for each employee
-  console.log('\n')
-  console.log(`${salaryEmployee1.name} (${salaryEmployee1.type}): R${salaryEmployee1.calculatePayout()}`);
-  console.log(`${salaryEmployee2.name} (${salaryEmployee2.type}): R${salaryEmployee2.calculatePayout()}`);
-  console.log('\n')
-  
-  console.log(`${hourlyEmployee1.name} (${hourlyEmployee1.type}): R${hourlyEmployee1.calculatePayout()}`);
-  console.log(`${hourlyEmployee2.name} (${hourlyEmployee2.type}): R${hourlyEmployee2.calculatePayout()}`);
-  console.log('\n')
+// Employee Payout Management System
+// Demonstrates object-oriented programming and payout calculations
 
-  console.log(`${hybridEmployee1.name} (${hybridEmployee1.type}): R${hybridEmployee1.calculatePayout()}`);
-  console.log(`${hybridEmployee2.name} (${hybridEmployee2.type}): R${hybridEmployee2.calculatePayout()}`);
+class Employee {
+  constructor(name, type, salary = 0, hourlyRate = 0, totalSales = 0, targetSales = 0) {
+    this.name = name;
+    this.type = type;
+    this.salary = salary;
+    this.hourlyRate = hourlyRate;
+    this.totalSales = totalSales;
+    this.targetSales = targetSales;
+  }
+
+  calculatePayout() {
+    if (this.totalSales <= this.targetSales) {
+      return this.salary;
+    }
+
+    switch (this.type) {
+
+      case "Salary":
+        console.log("Formula: Salary + 10% bonus");
+        return this.salary + (this.salary * 0.1);
+
+      case "Hourly":
+        console.log("Formula: Salary + (Hourly Rate × Total Sales × 0.5)");
+        return this.salary + (this.hourlyRate * this.totalSales * 0.5);
+
+      case "Hybrid":
+        console.log("Formula: Salary + (20% Salary bonus + Hourly Rate × Total Sales)");
+        return this.salary + ((this.salary * 0.2) + (this.hourlyRate * this.totalSales));
+
+      default:
+        throw new Error("Invalid employee type");
+    }
+  }
+
+  displayPayout() {
+    const payout = this.calculatePayout();
+    console.log(`${this.name} (${this.type}): R${payout}`);
+  }
+}
+
+
+// Create employees
+const employees = [
+
+  new Employee("Mosa Sefatsa", "Salary", 5000, 0, 200, 100),
+  new Employee("Keletso Dikotsi", "Salary", 3000, 0, 200, 100),
+
+  new Employee("Naledi Anderson", "Hourly", 0, 20, 200, 100),
+  new Employee("Mike Mathews", "Hourly", 0, 25, 200, 100),
+
+  new Employee("Kate Stevenson", "Hybrid", 6000, 40, 200, 100),
+  new Employee("Bob Peters", "Hybrid", 9000, 30, 200, 100)
+
+];
+
+// Display payouts
+console.log("\nEmployee Monthly Payouts\n");
+
+employees.forEach(employee => {
+  employee.displayPayout();
+});
